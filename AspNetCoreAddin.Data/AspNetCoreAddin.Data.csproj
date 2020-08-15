@@ -1,13 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AspNetCoreAddin.Application\AspNetCoreAddin.Application.csproj" />
-    <ProjectReference Include="..\AspNetCoreAddin.Data.EF\AspNetCoreAddin.Data.EF.csproj" />
-    <ProjectReference Include="..\AspNetCoreAddin.Data\AspNetCoreAddin.Data.csproj" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="IReponsitories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AspNetCoreAddin.Infrastructure\AspNetCoreAddin.Infrastructure.csproj" />
     <ProjectReference Include="..\AspNetCoreAddin.Utilities\AspNetCoreAddin.Utilities.csproj" />
   </ItemGroup>
