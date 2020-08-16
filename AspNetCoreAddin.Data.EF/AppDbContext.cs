@@ -47,6 +47,8 @@ namespace AspNetCoreAddin.Data.EF
 
         public DbSet<About> Abouts { set; get; }
 
+        public DbSet<ProductImage> ProductImages { set; get; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             #region Identity Config

@@ -6,6 +6,7 @@ namespace AspNetCoreAddin.Data.ViewModels
 {
    public class SubcribleViewModel
     {
+        public int Id { set; get; }
         public string Email { get; set; }
     }
 }

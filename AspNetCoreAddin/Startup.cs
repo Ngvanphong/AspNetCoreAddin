@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AspNetCoreAddin.Data.EF;
 using AspNetCoreAddin.Data.Entities;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -63,6 +64,9 @@ namespace AspNetCoreAddin
                 o.JsonSerializerOptions.PropertyNamingPolicy = null;
                 o.JsonSerializerOptions.DictionaryKeyPolicy = null;
             });
+
+            //Automapper
+            services.AddAutoMapper(typeof(Startup));
 
 
         }

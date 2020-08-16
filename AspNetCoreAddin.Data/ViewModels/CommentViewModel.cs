@@ -7,6 +7,7 @@ namespace AspNetCoreAddin.Data.ViewModels
 {
     public class CommentViewModel
     {
+        public int Id { set; get; }
         public int ProductId { set; get; }
 
         public int StarPoint { set; get; }
