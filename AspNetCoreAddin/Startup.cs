@@ -2,9 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreAddin.Data.EF;
+using AspNetCoreAddin.Data.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +28,43 @@ namespace AspNetCoreAddin
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), o => o.MigrationsAssembly("AspNetCoreAddin.Data.EF")));
+           
+            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+            // Indentity
+            services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
+            services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
+            services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
+
+            //Config Indentity
+            services.Configure<IdentityOptions>(option =>
+            {
+                //password setting
+                option.Password.RequireDigit = true;
+                option.Password.RequiredLength = 6;
+                option.Password.RequireNonAlphanumeric = false;
+                option.Password.RequireUppercase = false;
+                option.Password.RequireLowercase = false;
+                //lock setting
+                option.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1440);
+                option.Lockout.MaxFailedAccessAttempts = 10;
+                // check had email
+                option.User.RequireUniqueEmail = true;
+            });
+
+            // Seek database
+            services.AddTransient<DbInitializer>();
+
+            services.AddMvc().AddJsonOptions(o =>
+            {
+                o.JsonSerializerOptions.PropertyNamingPolicy = null;
+                o.JsonSerializerOptions.DictionaryKeyPolicy = null;
+            });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
