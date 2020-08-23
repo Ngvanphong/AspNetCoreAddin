@@ -1,18 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AspNetCoreAddin.Application.Implementations;
+using AspNetCoreAddin.Application.Interfaces;
 using AspNetCoreAddin.Data.EF;
+using AspNetCoreAddin.Data.EF.Reponsitories;
 using AspNetCoreAddin.Data.Entities;
+using AspNetCoreAddin.Data.IReponsitories;
+using AspNetCoreAddin.Helper;
+using AspNetCoreAddin.Infrastructure.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace AspNetCoreAddin
 {
@@ -32,7 +34,7 @@ namespace AspNetCoreAddin
 
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), o => o.MigrationsAssembly("AspNetCoreAddin.Data.EF")));
-           
+
             services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
             // Indentity
@@ -59,16 +61,55 @@ namespace AspNetCoreAddin
             // Seek database
             services.AddTransient<DbInitializer>();
 
+            //Automapper
+            services.AddAutoMapper(typeof(Startup));
+
+            //UnitOfWork
+            services.AddTransient<IUnitOfWork, EFUnitOfWork>();
+
+            //Cliam
+            services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomClaimsPrincipalFactoryApi>();
+
+            //Repository
+            services.AddTransient<IRepository<ProductCategory, int>, EFRepository<ProductCategory, int>>();
+            services.AddTransient<IPermissionRepository, PermissionRepository>();
+            services.AddTransient<IFunctionRepository, FunctionRepository>();
+            services.AddTransient<IRepository<Product, int>, EFRepository<Product, int>>();
+            services.AddTransient<IRepository<ProductTag, int>, EFRepository<ProductTag, int>>();
+            services.AddTransient<ITagRepository, TagRepository>();
+            services.AddTransient<IRepository<ProductImage, int>, EFRepository<ProductImage, int>>();
+            services.AddTransient<IRepository<Blog, int>, EFRepository<Blog, int>>();
+            services.AddTransient<IRepository<BlogTag, int>, EFRepository<BlogTag, int>>();
+            services.AddTransient<IRepository<BlogImage, int>, EFRepository<BlogImage, int>>();
+            services.AddTransient<IRepository<Slide, int>, EFRepository<Slide, int>>();
+            services.AddTransient<IRepository<Data.Entities.Contact, string>, EFRepository<Data.Entities.Contact, string>>();
+            services.AddTransient<IRepository<Subcrible, int>, EFRepository<Subcrible, int>>();
+            services.AddTransient<IRepository<SystemConfig, string>, EFRepository<SystemConfig, string>>();
+            services.AddTransient<IRepository<About, int>, EFRepository<About, int>>();
+            services.AddTransient<IRepository<Comment, int>, EFRepository<Comment, int>>();
+
+            // Service
+            services.AddTransient<IProductCategoryService, ProductCategoryService>();
+            services.AddTransient<IPermissionService, PermissionService>();
+            services.AddTransient<IFunctionService, FunctionService>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IProductImageService, ProductImageService>();
+            services.AddTransient<IAppUserService, AppUserService>();
+            services.AddTransient<IBlogService, BlogService>();
+            services.AddTransient<IBlogImageService, BlogImageService>();
+            services.AddTransient<ISlideService, SlideService>();
+            services.AddTransient<IContactService, ContactService>();
+            services.AddTransient<ISubcribleService, SubcribleService>();
+            services.AddTransient<ITagService, TagService>();
+            services.AddTransient<ISystemConfigService, SystemConfigService>();
+            services.AddTransient<IAboutService, AboutService>();
+            services.AddTransient<ICommentService, CommentService>();
+
             services.AddMvc().AddJsonOptions(o =>
             {
                 o.JsonSerializerOptions.PropertyNamingPolicy = null;
                 o.JsonSerializerOptions.DictionaryKeyPolicy = null;
             });
-
-            //Automapper
-            services.AddAutoMapper(typeof(Startup));
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

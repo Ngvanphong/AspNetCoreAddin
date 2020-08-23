@@ -7,11 +7,10 @@ using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AspNetCoreAddin.Application.Implementations
 {
-    public class TagService:ITagService
+    public class TagService : ITagService
     {
         private ITagRepository _tagRepository;
         private IUnitOfWork _unitOfWork;
@@ -58,7 +57,6 @@ namespace AspNetCoreAddin.Application.Implementations
             query = query.OrderBy(x => x.Name).Skip((page - 1) * pageSize).Take(pageSize);
             return _mapper.Map<List<TagViewModel>>(query.ToList());
         }
-
 
         public void SaveChanges()
         {
