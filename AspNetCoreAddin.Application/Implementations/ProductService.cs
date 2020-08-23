@@ -1,5 +1,6 @@
 ﻿using AspNetCoreAddin.Application.Interfaces;
 using AspNetCoreAddin.Data.Entities;
+using AspNetCoreAddin.Data.IReponsitories;
 using AspNetCoreAddin.Data.ViewModels;
 using AspNetCoreAddin.Infrastructure.Interfaces;
 using AspNetCoreAddin.Utilities.Constants;
@@ -8,29 +9,26 @@ using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AspNetCoreAddin.Application.Implementations
 {
-   public class ProductService:IProductService
+    public class ProductService : IProductService
     {
         private IMapper _mapper;
         private ITagRepository _tagRepository;
         private IRepository<Product, int> _productRepository;
         private IUnitOfWork _unitOfWork;
         private IRepository<ProductTag, int> _productTagRepository;
-        private IRepository<ProductCategory, int> _productCategoryRepository;
 
         public ProductService(IMapper mapper, ITagRepository tagRepository, IRepository<Product, int> productRepository, IUnitOfWork unitOfWork,
-            IRepository<ProductTag, int> productTagRepository, IRepository<ProductCategory, int> productCategoryRepository)
+            IRepository<ProductTag, int> productTagRepository)
         {
             _mapper = mapper;
             _tagRepository = tagRepository;
             _productTagRepository = productTagRepository;
             _unitOfWork = unitOfWork;
             _productRepository = productRepository;
-            _productCategoryRepository = productCategoryRepository;
         }
 
         public void Dispose()
@@ -137,7 +135,6 @@ namespace AspNetCoreAddin.Application.Implementations
             }
             if (!string.IsNullOrEmpty(keyword))
             {
-
                 bool flagId = int.TryParse(keyword, out int id);
                 if (flagId == true)
                 {
@@ -179,8 +176,6 @@ namespace AspNetCoreAddin.Application.Implementations
             return _mapper.Map<List<ProductViewModel>>(listHotProduct.Take((page - 1) * pageSize).Take(pageSize).ToList());
         }
 
-
-
         public List<ProductViewModel> GetAllByTagPaging(string tag, int page, int pageSize, string sort, out int totalRow)
         {
             var products = _productRepository.FindAll(x => x.Status == Data.Enums.Status.Active);
@@ -190,19 +185,23 @@ namespace AspNetCoreAddin.Application.Implementations
                         where pt.TagId == tag
                         select p;
             switch (sort)
-            { 
+            {
                 case "nameIncrease":
                     query = query.OrderBy(x => x.Name);
                     break;
+
                 case "nameDecrease":
                     query = query.OrderByDescending(x => x.Name);
                     break;
+
                 case "priceIncrease":
                     query = query.OrderBy(x => x.Price);
                     break;
+
                 case "priceDecrease":
                     query = query.OrderByDescending(x => x.Price);
                     break;
+
                 default:
                     query = query.OrderByDescending(x => x.DateModified);
                     break;
@@ -220,15 +219,19 @@ namespace AspNetCoreAddin.Application.Implementations
                 case "nameIncrease":
                     query = query.OrderBy(x => x.Name);
                     break;
+
                 case "nameDecrease":
                     query = query.OrderByDescending(x => x.Name);
                     break;
+
                 case "priceIncrease":
                     query = query.OrderBy(x => x.Price);
                     break;
+
                 case "priceDecrease":
                     query = query.OrderByDescending(x => x.Price);
                     break;
+
                 default:
                     query = query.OrderByDescending(x => x.DateModified);
                     break;
@@ -285,7 +288,6 @@ namespace AspNetCoreAddin.Application.Implementations
                 .OrderByDescending(x => x.Id).Take(number).ToList());
         }
 
-
         public List<TagViewModel> GetTagByProductId(int productId)
         {
             return _mapper.Map<List<TagViewModel>>(_tagRepository.GetTagByProductId(productId));
@@ -295,6 +297,5 @@ namespace AspNetCoreAddin.Application.Implementations
         {
             return _mapper.Map<TagViewModel>(_tagRepository.FindById(id));
         }
-       
     }
 }

@@ -21,7 +21,7 @@ namespace AspNetCoreAddin.Application.Interfaces
 
         List<ProductViewModel> GetAll();
 
-        List<ProductViewModel> GetNewProduct(int number);
+        List<ProductViewModel> GetNewProductWithNumber(int number);
 
         List<ProductViewModel> GetAll(int? categoryId, string hotPromotion, string keyword, int page, int pageSize, out int totalRow);
 

@@ -63,5 +63,6 @@ namespace AspNetCoreAddin.Data.Entities
         public string SeoDescription { set; get; }
 
         public virtual ICollection<Product> Products { set; get; }
+        
     }
 }
