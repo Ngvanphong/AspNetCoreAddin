@@ -11,15 +11,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{4C5617
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{10882EA6-DA71-4B99-903E-6304C7C0D0FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreAddin.Infrastructure", "AspNetCoreAddin.Infrastructure\AspNetCoreAddin.Infrastructure.csproj", "{660F558F-B043-4D52-95EA-DBA8D8DEA1AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreAddin.Infrastructure", "AspNetCoreAddin.Infrastructure\AspNetCoreAddin.Infrastructure.csproj", "{660F558F-B043-4D52-95EA-DBA8D8DEA1AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreAddin.Utilities", "AspNetCoreAddin.Utilities\AspNetCoreAddin.Utilities.csproj", "{78F75C52-B077-4A19-BA44-905E87F35781}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreAddin.Utilities", "AspNetCoreAddin.Utilities\AspNetCoreAddin.Utilities.csproj", "{78F75C52-B077-4A19-BA44-905E87F35781}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreAddin.Data", "AspNetCoreAddin.Data\AspNetCoreAddin.Data.csproj", "{5451CAB3-85F6-498B-89E2-CF9E6287B68B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreAddin.Data", "AspNetCoreAddin.Data\AspNetCoreAddin.Data.csproj", "{5451CAB3-85F6-498B-89E2-CF9E6287B68B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreAddin.Data.EF", "AspNetCoreAddin.Data.EF\AspNetCoreAddin.Data.EF.csproj", "{214CB27C-B8E3-48DC-A8AB-3D7D38B2AD6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreAddin.Data.EF", "AspNetCoreAddin.Data.EF\AspNetCoreAddin.Data.EF.csproj", "{214CB27C-B8E3-48DC-A8AB-3D7D38B2AD6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreAddin.Application", "AspNetCoreAddin.Application\AspNetCoreAddin.Application.csproj", "{7B7B7F33-FDCE-4146-BBD8-752BB6129D38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreAddin.Application", "AspNetCoreAddin.Application\AspNetCoreAddin.Application.csproj", "{7B7B7F33-FDCE-4146-BBD8-752BB6129D38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreAddin.WebApi", "AspNetCoreAddin.WebApi\AspNetCoreAddin.WebApi.csproj", "{15E3EFB6-9F49-4328-A56D-2F1E37C304A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{7B7B7F33-FDCE-4146-BBD8-752BB6129D38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B7B7F33-FDCE-4146-BBD8-752BB6129D38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B7B7F33-FDCE-4146-BBD8-752BB6129D38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15E3EFB6-9F49-4328-A56D-2F1E37C304A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15E3EFB6-9F49-4328-A56D-2F1E37C304A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15E3EFB6-9F49-4328-A56D-2F1E37C304A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15E3EFB6-9F49-4328-A56D-2F1E37C304A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

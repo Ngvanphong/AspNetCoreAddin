@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AspNetCoreAddin.Application\AspNetCoreAddin.Application.csproj" />
+    <ProjectReference Include="..\AspNetCoreAddin.Data.EF\AspNetCoreAddin.Data.EF.csproj" />
+    <ProjectReference Include="..\AspNetCoreAddin.Data\AspNetCoreAddin.Data.csproj" />
+    <ProjectReference Include="..\AspNetCoreAddin.Infrastructure\AspNetCoreAddin.Infrastructure.csproj" />
+    <ProjectReference Include="..\AspNetCoreAddin.Utilities\AspNetCoreAddin.Utilities.csproj" />
+  </ItemGroup>
+
+
+</Project>
