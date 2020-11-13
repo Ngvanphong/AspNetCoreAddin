@@ -5,11 +5,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AspNetCoreAddin.WebApi.Controllers
@@ -67,9 +70,17 @@ namespace AspNetCoreAddin.WebApi.Controllers
                     { "permissions",JsonConvert.SerializeObject(permissionViewModels) },
                     {"role",JsonConvert.SerializeObject(roles) }
                 };
-
-
-
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var token = new JwtSecurityToken(_config["Token:Issuer"],
+                    _config["Token:Issuer"],
+                    claims,
+                    notBefore: DateTime.Now,
+                    expires: DateTime.Now.AddDays(28),
+                    signingCredentials: creds
+                    );
+                _logger.LogInformation(1, "User logged in.");
+                return new OkObjectResult(new { token = new JwtSecurityTokenHandler().WriteToken(token), userLogin = props });
             }
             return new BadRequestObjectResult("Login failure");
         }
@@ -91,6 +102,5 @@ namespace AspNetCoreAddin.WebApi.Controllers
             }
             return new BadRequestObjectResult(model);
         }
-
     }
 }
