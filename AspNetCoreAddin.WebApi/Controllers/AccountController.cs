@@ -1,6 +1,7 @@
 ﻿using AspNetCoreAddin.Application.Interfaces;
 using AspNetCoreAddin.Data.Entities;
 using AspNetCoreAddin.WebApi.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -35,6 +36,9 @@ namespace AspNetCoreAddin.WebApi.Controllers
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
 
+        [HttpPost]
+        [Route("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(string userName, string password, bool rememberMe = false)
         {
             var user = await _userManager.FindByNameAsync(userName);
@@ -85,6 +89,9 @@ namespace AspNetCoreAddin.WebApi.Controllers
             return new BadRequestObjectResult("Login failure");
         }
 
+        [HttpPost]
+        [Route("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)

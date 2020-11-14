@@ -10,7 +10,7 @@ namespace AspNetCoreAddin.WebApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-   // [Authorize]
+    [Authorize]
     public class ApiController : ControllerBase
     {
 
