@@ -1,33 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AspNetCoreAddin.Data.Entities;
+﻿using AspNetCoreAddin.Data.Entities;
 using AspNetCoreAddin.Data.ViewModels.Indentity;
 using AspNetCoreAddin.Utilities.Constants;
 using AspNetCoreAddin.Utilities.Dtos;
 using AspNetCoreAddin.WebApi.Authorization;
+using AspNetCoreAddin.WebApi.Extensions;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AspNetCoreAddin.WebApi.Controllers
 {
-    
     public class AppRoleController : ApiController
     {
         private RoleManager<AppRole> _roleManager;
         private IMapper _mapper;
         private readonly IAuthorizationService _authorizationService;
-        public AppRoleController(RoleManager<AppRole> roleManger,IMapper mapper,IAuthorizationService authorizationService)
+
+        public AppRoleController(RoleManager<AppRole> roleManger, IMapper mapper, IAuthorizationService authorizationService)
         {
             _roleManager = roleManger;
             _mapper = mapper;
             _authorizationService = authorizationService;
-
         }
+
         [HttpGet]
         [Route("getlistall")]
         public IActionResult Get()
@@ -59,7 +59,7 @@ namespace AspNetCoreAddin.WebApi.Controllers
                 PageSize = pageSize,
                 Items = listRoleVm,
                 TotalRows = totalRows
-            }) ;
+            });
         }
 
         [HttpGet]
@@ -70,7 +70,75 @@ namespace AspNetCoreAddin.WebApi.Controllers
             return new OkObjectResult(_mapper.Map<AppRoleViewModel>(appRole));
         }
 
+        [HttpPost]
+        [Route("add")]
+        public async Task<IActionResult> Add([FromBody] AppRoleViewModel appRoleVm)
+        {
+            var hasPermission = await _authorizationService.AuthorizeAsync(User, "ROLE", Operations.Create);
+            if (!hasPermission.Succeeded)
+            {
+                return new BadRequestObjectResult(CommonConstants.Forbidden);
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    AppRole appRole = _mapper.Map<AppRole>(appRoleVm);
+                    await _roleManager.CreateAsync(appRole);
+                    return new OkObjectResult(appRoleVm);
+                }
+                catch (Exception ex)
+                {
+                    return new BadRequestObjectResult(ex.Message);
+                }
+            }
+            return new BadRequestObjectResult(ModelState);
+        }
 
+        [HttpPut]
+        [Route("update")]
+        public async Task<IActionResult> Update([FromBody] AppRoleViewModel appRoleVm)
+        {
+            var hasPermission = await _authorizationService.AuthorizeAsync(User, "ROLE", Operations.Update);
+            if (!hasPermission.Succeeded)
+            {
+                return new BadRequestObjectResult(CommonConstants.Forbidden);
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    AppRole appRole = await _roleManager.FindByIdAsync(appRoleVm.Id.ToString());
+                    appRole.UpdateAppRole(appRoleVm);
+                    await _roleManager.UpdateAsync(appRole);
+                    return new OkObjectResult(appRoleVm);
+                }
+                catch (Exception ex)
+                {
+                    return new BadRequestObjectResult(ex.Message);
+                }
+            }
+            return new BadRequestObjectResult(ModelState);
+        }
 
+        [HttpDelete]
+        [Route("delete")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var hasPermission = await _authorizationService.AuthorizeAsync(User, "ROLE", Operations.Delete);
+            if (!hasPermission.Succeeded)
+            {
+                return new BadRequestObjectResult(CommonConstants.Forbidden);
+            }
+            try
+            {
+                AppRole appRole = await _roleManager.FindByIdAsync(id);
+                await _roleManager.DeleteAsync(appRole);
+                return new OkObjectResult(id);
+            }catch(Exception ex)
+            {
+                return new BadRequestObjectResult(ex.Message);
+            }
+        }
     }
 }
